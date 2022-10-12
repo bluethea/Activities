@@ -3,4 +3,5 @@
     <string name="dialog_message">Are you sure you want to delete this note?</string>
     <string name="start">Yes</string>
     <string name="cancel">No</string>
+    <string name="no_title">Please add a title</string>
 </resources>
