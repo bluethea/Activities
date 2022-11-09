@@ -11,12 +11,13 @@ import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DeleteNoteActivity extends AppCompatActivity {
 
-    static ArrayList<String> notes_array_list = new ArrayList<>();
+    ArrayList<String> notes_array_list = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +61,19 @@ public class DeleteNoteActivity extends AppCompatActivity {
         builder.setMessage(R.string.dialog_message)
                 .setPositiveButton(R.string.start, (dialog, id) -> {
                     notes_array_list.remove(selectedPos);
-                    arrayAdapter.notifyDataSetChanged();
+                    File notes_file = new File(getApplicationContext().getFilesDir(), "notes.txt");
+                    try {
+                        FileWriter writer = new FileWriter(notes_file, false);
+                        for (int i = 0; i < notes_array_list.size(); i++) {
+                            writer.write(notes_array_list.get(i) + "\n");
+                        }
+                        writer.flush();
+                        writer.close();
+                        arrayAdapter.notifyDataSetChanged();
+                    }
+                    catch (Exception e) {
+                        Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                    }
                 })
                 .setNegativeButton(R.string.cancel, (dialog, id) -> dialog.dismiss());
         // Create the AlertDialog object and return it

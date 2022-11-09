@@ -33,9 +33,9 @@ public class AddNoteActivity extends AppCompatActivity {
             else {
                 try {
                     File notes_file = new File(getApplicationContext().getFilesDir(), "notes.txt");
-                    FileWriter writer = new FileWriter(notes_file);
-                    writer.append(exit_text_title.getText().toString());
-                    writer.append(exit_text_note.getText().toString());
+                    FileWriter writer = new FileWriter(notes_file, true);
+                    String record = exit_text_title.getText().toString() + ";" + exit_text_note.getText().toString() + "\n";
+                    writer.write(record);
                     writer.flush();
                     writer.close();
                     finish();
